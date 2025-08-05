@@ -1,10 +1,9 @@
 import { combineReducers } from "redux"
+import { STORAGE_NAME } from "@/lib/constants"
 import { APP_REDUCER } from "@/redux-store/app"
 import { configureStore } from "@reduxjs/toolkit"
 import { persistReducer, persistStore } from "redux-persist"
 import createWebStorage from "redux-persist/es/storage/createWebStorage"
-
-import { STORAGE_NAME } from "@/utils/constants"
 
 interface LogoutParams {
   onSuccess: () => void
