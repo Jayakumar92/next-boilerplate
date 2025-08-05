@@ -1,7 +1,7 @@
 import { proceedLogout, store } from "@/redux-store/store"
 import axios from "axios"
 
-export const SERVER = process.env.NEXT_PUBLIC_API_URL
+import { SERVER } from "@/services/urls"
 
 const axiosApi = axios.create({
   baseURL: SERVER,
@@ -68,4 +68,42 @@ export async function post(url: string, data: object, config: object) {
     headers,
   })
   return response.data
+}
+
+export type FetchError = {
+  success: false
+  error_message: string
+}
+
+export type PostFetchResult<R> = { success: true; data: R } | FetchError
+
+export const postFetch = async <T, R>(
+  url: string,
+  params: T
+): Promise<PostFetchResult<R>> => {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
+    })
+
+    const result = await response.json()
+
+    if (result.success) {
+      return { success: true, data: result as R }
+    } else {
+      return {
+        success: false,
+        error_message: result.error_message || "An error occurred",
+      }
+    }
+  } catch {
+    return {
+      success: false,
+      error_message: "Network error or server is not reachable",
+    }
+  }
 }

@@ -4,6 +4,8 @@ import { configureStore } from "@reduxjs/toolkit"
 import { persistReducer, persistStore } from "redux-persist"
 import createWebStorage from "redux-persist/es/storage/createWebStorage"
 
+import { STORAGE_NAME } from "@/utils/constants"
+
 interface LogoutParams {
   onSuccess: () => void
   onError: () => void
@@ -31,8 +33,6 @@ const storage =
   typeof window !== "undefined"
     ? createWebStorage("local")
     : createPersistStore()
-
-const STORAGE_NAME = "BASE_APP"
 
 const persistConfig = {
   key: STORAGE_NAME,

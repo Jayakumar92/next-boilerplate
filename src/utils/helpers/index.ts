@@ -1,5 +1,15 @@
 import { z } from "zod"
 
+import { SERVER } from "@/services/urls"
+
+export const getImageUrl = (path: string) => {
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path
+  }
+
+  return SERVER + path
+}
+
 export function paginationHandler(
   type: "next" | "prev" | "current",
   position: number
